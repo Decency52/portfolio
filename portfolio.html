@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manuel Decency Nsangou | Développeur Full Stack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ff88;
+            --secondary: #00d4ff;
+            --dark: #0a0e27;
+            --darker: #050816;
+            --text: #e0e6ed;
+            --accent: #ff0055;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 50%, var(--primary) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, var(--secondary) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, var(--accent) 0%, transparent 50%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-50px, 100px) rotate(120deg); }
+            66% { transform: translate(100px, -50px) rotate(240deg); }
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 4rem 0;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text h1 .greeting {
+            display: block;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text);
+            opacity: 0;
+            animation: slideInLeft 0.8s ease 0.2s forwards;
+        }
+
+        .hero-text h1 .name {
+            display: block;
+            opacity: 0;
+            animation: slideInLeft 0.8s ease 0.4s forwards;
+        }
+
+        .hero-text .tagline {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 0.6s forwards;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 0.8s forwards;
+        }
+
+        /* Photo Container */
+        .photo-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: scaleIn 1s ease 1s forwards;
+        }
+
+        .photo-frame {
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-frame:hover {
+            transform: translateY(-10px);
+        }
+
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            border-radius: 20px;
+            z-index: -1;
+            animation: rotateBorder 4s linear infinite;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: var(--primary);
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+        }
+
+        .photo-placeholder::before {
+            content: 'MDN';
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 1s forwards;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--darker);
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--text);
+            color: var(--darker);
+            transform: translateY(-3px);
+        }
+
+        /* Section */
+        section {
+            padding: 6rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 50px rgba(0, 255, 136, 0.2);
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .project-card .company {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .project-card p {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+
+        /* Organizations */
+        .orgs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .org-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), rgba(0, 212, 255, 0.05));
+            border: 2px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .org-card:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.3);
+        }
+
+        .org-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .org-card p {
+            opacity: 0.8;
+        }
+
+        /* Contact */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            border-color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+        }
+
+        .contact-item a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            opacity: 0.6;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-text h1 .greeting {
+                font-size: 1.5rem;
+            }
+
+            .photo-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="container">
+            <div class="logo">MDN_DEV</div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>
+                            <span class="greeting">Salut, je suis</span>
+                            <span class="name">Manuel Decency Nsangou Nkanjone</span>
+                        </h1>
+                        <p class="tagline">Développeur Full Stack | Frontend • Backend</p>
+                        <p>
+                            Passionné par le développement web et la cybersécurité, je crée des expériences 
+                            digitales innovantes et sécurisées. Spécialisé en développement frontend avec 
+                            des compétences solides en backend.
+                        </p>
+                        <div class="cta-buttons">
+                            <a href="#projects" class="btn btn-primary">Voir mes projets</a>
+                            <a href="#contact" class="btn btn-secondary">Me contacter</a>
+                        </div>
+                    </div>
+                    
+                    <div class="photo-container">
+                        <div class="photo-frame">
+                            <img src="WhatsApp Image 2025-12-30 at 9.48.37 PM.jpeg" alt="Manuel Decency" style="width:100%; height:100%; object-fit:cover; border-radius:15px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title">Projets Réalisés</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="company">XYBERCLAN</div>
+                        <h3>Xyberclan SaaS</h3>
+                        <p>
+                            Participation au développement de la plateforme SaaS de Xyberclan, spécialisée 
+                            dans la cybersécurité et l'entretien du matériel informatique.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Frontend</span>
+                            <span class="tag">Backend</span>
+                            <span class="tag">Cybersécurité</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="company">XYBERCLAN</div>
+                        <h3>Xybershield</h3>
+                        <p>
+                            Création d'une solution de protection et de sécurité informatique pour 
+                            renforcer la cybersécurité des entreprises.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Sécurité</span>
+                            <span class="tag">Web App</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="company">IGETSENSE</div>
+                        <h3>NB Dance Award</h3>
+                        <p>
+                            Développement d'une plateforme web pour l'événement NB Dance Award, 
+                            offrant une expérience utilisateur fluide et moderne.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Frontend</span>
+                            <span class="tag">UI/UX</span>
+                            <span class="tag">Événementiel</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="company">PROJET PERSONNEL</div>
+                        <h3>Phishguard</h3>
+                        <p>
+                            Application de cybersécurité développée pour combattre le phishing et 
+                            protéger les utilisateurs contre les attaques d'hameçonnage.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Cybersécurité</span>
+                            <span class="tag">Anti-Phishing</span>
+                            <span class="tag">Full Stack</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Organizations Section -->
+        <section id="organizations">
+            <div class="container">
+                <h2 class="section-title">Organisations</h2>
+                <div class="orgs-grid">
+                    <div class="org-card">
+                        <h3>XYBERCLAN</h3>
+                        <p>
+                            Spécialisée dans la cybersécurité, l'entretien du matériel informatique 
+                            et la création de sites web. Solutions complètes pour la protection et 
+                            la maintenance de votre infrastructure numérique.
+                        </p>
+                    </div>
+
+                    <div class="org-card">
+                        <h3>IGETSENSE</h3>
+                        <p>
+                            Agence de développement web offrant des services de création de sites web 
+                            et d'applications sur mesure. Des solutions digitales innovantes et 
+                            performantes pour votre entreprise.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">Contact</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <strong>Email</strong><br>
+                            <a href="mailto:decency.nsangou@facsciences-uy1.cm">decency.nsangou@facsciences-uy1.cm</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <strong>Téléphone</strong><br>
+                            <a href="tel:+237691072683">+237 691 072 683</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">💻</div>
+                        <div>
+                            <strong>GitHub</strong><br>
+                            <a href="https://github.com/Decency52" target="_blank">@Decency52</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Manuel Decency Nsangou Nkanjone. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>
